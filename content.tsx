@@ -59,23 +59,25 @@ export default function PlasmoOverlay() {
     setIsLoading(true)
     
     try {
-        const response = await fetch(`${API_BASE_URL}/api/tools/companion`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({
-                text: selection,
-                action: action
-            })
+        const response = await new Promise<{success: boolean, data?: any, error?: string}>((resolve) => {
+            chrome.runtime.sendMessage({ 
+                type: "AI_ACTION",
+                text: selection, 
+                action: action 
+            }, (res) => resolve(res))
         })
-        const data = await response.json()
-        if (data.result) {
-            setResult({ type: 'success', content: data.result })
+
+        if (response && response.success && response.data) {
+            if (response.data.result) {
+                 setResult({ type: 'success', content: response.data.result })
+            } else {
+                 setResult({ type: 'error', content: response.data.error || "Unknown error" })
+            }
         } else {
-            setResult({ type: 'error', content: data.error || "Unknown error" })
+            setResult({ type: 'error', content: response?.error || "Failed to connect to Rynk." })
         }
     } catch (e) {
-        setResult({ type: 'error', content: "Failed to connect to Rynk. Ensure localhost:8788 is running." })
+        setResult({ type: 'error', content: "Failed to communicate with extension." })
     } finally {
         setIsLoading(false)
     }

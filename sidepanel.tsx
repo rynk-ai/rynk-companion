@@ -31,34 +31,30 @@ export default function SidePanel() {
     setOutputText("")
     
     try {
-        console.log("[SidePanel] Fetching:", `${API_BASE_URL}/api/tools/companion`)
-        const response = await fetch(`${API_BASE_URL}/api/tools/companion`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include", 
-            body: JSON.stringify({
-                text: inputText,
-                action: action
-            })
-        })
-        console.log("[SidePanel] Response Status:", response.status)
-
-        const data = await response.json()
-        console.log("[SidePanel] Data:", data)
+        console.log("[SidePanel] Sending to Background:", action)
         
-        if (response.ok) {
-            setOutputText(data.result)
+        const response = await new Promise<{success: boolean, data?: any, error?: string}>((resolve) => {
+            chrome.runtime.sendMessage({ 
+                type: "AI_ACTION",
+                text: inputText, 
+                action: action 
+            }, (res) => resolve(res))
+        })
+
+        if (response.success && response.data) {
+            if (response.data.result) {
+                 setOutputText(response.data.result)
+            } else {
+                 setOutputText(`Error: ${response.data.error || "Unknown response format"}`)
+            }
         } else {
-            console.error("[SidePanel] Error Data:", data)
-            setOutputText(`Error: ${data.error || "Failed to process"}`)
+            console.error("[SidePanel] Background Error:", response.error)
+            setOutputText(`Error: ${response.error || "Failed to process"}`)
         }
+
     } catch (error: any) {
-        console.error("[SidePanel] Catch Error:", error)
-        if (error.message.includes("Extension context invalidated")) {
-             setOutputText("Error: Extension updated. Please reload the page.")
-        } else {
-             setOutputText(`Connection Failed: ${error.message}`)
-        }
+        console.error("[SidePanel] Messaging Error:", error)
+        setOutputText(`Connection Failed: ${error.message}`)
     } finally {
         setIsProcessing(false)
     }
