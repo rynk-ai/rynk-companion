@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+      /* ====== SWISS TYPOGRAPHY SCALE ====== */
+      --heading-1: 3.5rem;
+      --heading-2: 2.5rem;
+      --heading-3: 1.5rem;
+      --body: 1rem;
+      --caption: 0.75rem;
+
+      /* ====== SPACING SCALE ====== */
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 32px;
+
+      /* ====== BACKGROUNDS ====== */
+      --background: 0 0% 100%; /* Pure White */
+
+      /* ====== FOREGROUND ====== */
+      --foreground: 0 0% 6%; /* Near Black #0F0F0F */
+
+      /* ====== CARD/SURFACE ====== */
+      --card: 0 0% 100%;
+      --card-foreground: 0 0% 6%;
+
+      /* ====== POPOVER ====== */
+      --popover: 0 0% 100%;
+      --popover-foreground: 0 0% 6%;
+
+      /* ====== PRIMARY - Swiss Black ====== */
+      --primary: 0 0% 6%;
+      --primary-foreground: 0 0% 100%;
+
+      /* ====== SECONDARY - Neutral Grey ====== */
+      --secondary: 0 0% 96%; /* #F5F5F5 */
+      --secondary-foreground: 0 0% 6%;
+
+      /* ====== MUTED ====== */
+      --muted: 0 0% 96%;
+      --muted-foreground: 0 0% 45%;
+
+      /* ====== ACCENT - Neutral Hover ====== */
+      --accent: 0 0% 94%;
+      --accent-foreground: 0 0% 6%;
+
+      /* ====== DESTRUCTIVE ====== */
+      --destructive: 0 84% 60%;
+      --destructive-foreground: 0 0% 98%;
+
+      /* ====== BORDERS - Crisp ====== */
+      --border: 0 0% 88%;
+      --input: 0 0% 88%;
+      --ring: 0 0% 6%;
+
+      /* ====== RADIUS - Sharp (Swiss) ====== */
+      --radius: 0px;
+  }
+
+  .dark {
+      /* ====== BACKGROUNDS ====== */
+      --background: 0 0% 4%; /* #0A0A0A - True Black */
+
+      /* ====== FOREGROUND ====== */
+      --foreground: 0 0% 94%; /* #F0F0F0 */
+
+      /* ====== CARD/SURFACE ====== */
+      --card: 0 0% 6%;
+      --card-foreground: 0 0% 94%;
+
+      /* ====== POPOVER ====== */
+      --popover: 0 0% 6%;
+      --popover-foreground: 0 0% 94%;
+
+      /* ====== PRIMARY ====== */
+      --primary: 0 0% 96%;
+      --primary-foreground: 0 0% 4%;
+
+      /* ====== SECONDARY ====== */
+      --secondary: 0 0% 10%;
+      --secondary-foreground: 0 0% 94%;
+
+      /* ====== MUTED ====== */
+      --muted: 0 0% 12%;
+      --muted-foreground: 0 0% 55%;
+
+      /* ====== ACCENT ====== */
+      --accent: 0 0% 12%;
+      --accent-foreground: 0 0% 94%;
+
+      /* ====== BORDERS ====== */
+      --border: 0 0% 14%;
+      --input: 0 0% 14%;
+      --ring: 0 0% 60%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased font-sans;
+  }
+}
+
+@layer utilities {
+    .swiss-headline {
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        line-height: 0.92;
+    }
+
+    .swiss-subhead {
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+    }
+
+    .swiss-mono {
+        font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 0.65rem;
+    }
+}
